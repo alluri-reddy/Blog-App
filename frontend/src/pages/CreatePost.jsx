@@ -32,44 +32,39 @@ const CreatePost = () => {
         setCats(updatedCats)
     }
 
-    const handleCreate=async (e)=>{
-        e.preventDefault()
-        const post={
-          title,
-          desc,
-          username:user.username,
-          userId:user._id,
-          categories:cats
+    const handleCreate = async (e) => {
+      e.preventDefault();
+      
+      const post = {
+        title,
+        desc,
+        username: user.username,
+        userId: user._id,
+        categories: cats
+      };
+    
+      if (file) {
+        const data = new FormData();
+        data.append("file", file);
+    
+        // Upload image to Cloudinary via backend
+        try {
+          const imgUpload = await axios.post(URL + "/api/upload", data);
+          post.photo = imgUpload.data.url; // Store Cloudinary image URL in post
+        } catch (err) {
+          console.log(err);
         }
-
-        if(file){
-          const data=new FormData()
-          const filename=Date.now()+file.name
-          data.append("img",filename)
-          data.append("file",file)
-          post.photo=filename
-          // console.log(data)
-          //img upload
-          try{
-            const imgUpload=await axios.post(URL+"/api/upload",data)
-            // console.log(imgUpload.data)
-          }
-          catch(err){
-            console.log(err)
-          }
-        }
-        //post upload
-        // console.log(post)
-        try{
-          const res=await axios.post(URL+"/api/posts/create",post,{withCredentials:true})
-          navigate("/posts/post/"+res.data._id)
-          // console.log(res.data)
-
-        }
-        catch(err){
-          console.log(err)
-        }
-    }
+      }
+    
+      // Post upload logic
+      try {
+        const res = await axios.post(URL + "/api/posts/create", post, { withCredentials: true });
+        navigate("/posts/post/" + res.data._id);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    
 
 
 

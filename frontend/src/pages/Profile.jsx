@@ -3,7 +3,7 @@ import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
 import ProfilePosts from "../components/ProfilePosts"
 import axios from "axios"
-import { IF, URL } from "../url"
+import { URL } from "../url"
 import { UserContext } from "../context/UserContext"
 import { useNavigate, useParams } from "react-router-dom"
 
