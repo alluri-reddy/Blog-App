@@ -13,21 +13,19 @@ const Login = () => {
   const {setUser}=useContext(UserContext)
   const navigate=useNavigate()
 
-  const handleLogin=async()=>{
-    try{
-      const res=await axios.post(URL+"/api/auth/login",{email,password},{withCredentials:true})
-      // console.log(res.data)
-      setUser(res.data)
-      navigate("/")
-
+  const handleLogin = async () => {
+    try {
+      console.log("Logging in with:", { email, password }); // Log email and password
+      const res = await axios.post(`${URL}/api/auth/login`, { email, password }, { withCredentials: true });
+      console.log("Response from server:", res.data); // Log the server response
+      setUser(res.data);
+      navigate("/");
+    } catch (err) {
+      setError(true);
+      console.error("Login error:", err.response ? err.response.data : err.message); // Detailed error logging
     }
-    catch(err){
-      setError(true)
-      console.log(err)
-
-    }
-
-  }
+  };
+  
   return (
     <>
     <div className="flex items-center justify-between px-6 md:px-[200px] py-4">
